@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Interact Club of BDU STEM Center | Bahir Dar University</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <nav id="main-nav">
+    <a id="nav-brand" class="nav-brand">
+      <span><%= club.shortName %></span>
+      <span class="brand-divider">/</span>
+    </a>
+    <ul class="nav-links">
+      <li><a id="nav-about">About Us</a></li>
+      <li><a id="nav-projects">Our Projects</a></li>
+      <li><a id="nav-events">Events &amp; Activities</a></li>
+      <li><a id="nav-team">Our Team</a></li>
+      <li><a id="nav-gallery">Gallery</a></li>
+      <li><a id="nav-join">Join Us</a></li>
+      <li><a id="nav-contact" class="nav-contact-btn">Contact Us</a></li>
+    </ul>
+  </nav>
+
+  <button id="mobile-menu-btn" class="mobile-menu-btn" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+
+  <div id="mobile-nav-overlay" class="mobile-nav-overlay" onclick="if(event.target===this) toggleMobileMenu(false)">
+    <div class="mobile-nav-drawer">
+      <div>
+        <div class="mobile-nav-header">
+          <a class="mobile-nav-brand" onclick="jumpTo('intro'); toggleMobileMenu(false);">
+            <span class="dot"></span>
+            <span><%= club.shortName %></span>
+          </a>
+          <button class="mobile-nav-close" onclick="toggleMobileMenu(false)" aria-label="Close menu">&times;</button>
+        </div>
+        <ul class="mobile-nav-links">
+          <li><a onclick="jumpTo('about'); toggleMobileMenu(false);"><span class="nav-idx">01</span> About Us</a></li>
+          <li><a onclick="jumpTo('projects'); toggleMobileMenu(false);"><span class="nav-idx">02</span> Our Projects</a></li>
+          <li><a class="nav-disabled"><span class="nav-idx">03</span> Events &amp; Activities</a></li>
+          <li><a class="nav-disabled"><span class="nav-idx">04</span> Our Team</a></li>
+          <li><a class="nav-disabled"><span class="nav-idx">05</span> Gallery</a></li>
+          <li><a class="nav-disabled"><span class="nav-idx">06</span> Join Us</a></li>
+          <li class="mobile-nav-action-item"><button type="button" class="btn-primary mobile-contact-btn" onclick="jumpTo('contact'); toggleMobileMenu(false);">Contact Us &rarr;</button></li>
+        </ul>
+      </div>
+      <div class="mobile-nav-footer">
+        <p>Rotary District 9212</p>
+        <small>Bahir Dar University STEM Center</small>
+      </div>
+    </div>
+  </div>
+
+  <div id="scroller"></div>
+
+  <div id="viewport">
+    <section id="intro-section">
+      <canvas id="gl"></canvas>
+
+      <div id="lockup">
+        <div class="txt">
+          <span class="t1" id="t1">Interact</span>
+          <span class="t2">Club of BDU STEM Center</span>
+          <span class="t3"><%= club.location %></span>
+        </div>
+        <div class="mark"></div>
+      </div>
+
+      <div id="hero">
+        <div class="badge">
+          <span>Rotary International Partner</span>
+        </div>
+        <h1>Service <b>above</b><br>self.</h1>
+        <p>
+          A creative, student-led community of high schoolers at the BDU STEM Center, dedicated to youth leadership and helping our local community in Bahir Dar.
+        </p>
+        <div class="hero-actions">
+          <button id="hero-btn-about" type="button" class="btn-primary">Explore Our Story &darr;</button>
+          <button id="hero-btn-projects" type="button" class="btn-secondary">View Innovations</button>
+        </div>
+      </div>
+
+      <div id="tag">
+        <b id="tag-num">01 / INNOVATION</b>
+        <span id="tag-title">BDU STEM Center</span>
+        <small id="tag-sub">Youth Leadership &amp; Community Service</small>
+      </div>
+
+      <div id="hint">Scroll<i></i></div>
+      <div id="bar"><i></i></div>
+    </section>
+
+    <section id="about-section">
+      <div class="about-inner">
+        <div class="sheet-handle"><span></span></div>
+        
+        <span class="editorial-tag">About The Club</span>
+        <h2 class="editorial-title">
+          Young leaders dedicated to <span>helping our community</span>
+        </h2>
+        
+        <p class="editorial-lead">
+          <%= club.about.story %>
+        </p>
+
+        <div class="metrics-row" id="metrics-container">
+          <% club.about.metrics.forEach(function(m) { %>
+          <div class="metric-item">
+            <div class="metric-num"><%= m.val %></div>
+            <div class="metric-label"><%= m.label %></div>
+          </div>
+          <% }); %>
+        </div>
+
+        <div class="about-columns">
+          <div class="story-block">
+            <h3>Our Mission</h3>
+            <p><%= club.about.mission %></p>
+          </div>
+          <div class="story-block">
+            <h3>Our Vision</h3>
+            <p><%= club.about.vision %></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects-section">
+      <div class="projects-header">
+        <div class="projects-header-text">
+          <span class="editorial-tag">Key Initiatives</span>
+          <h2>Community Projects</h2>
+        </div>
+        <div class="projects-indicator">
+          <span class="indicator-counter" id="proj-counter">01 / 04</span>
+          <div class="indicator-bar">
+            <div class="indicator-bar-fill" id="proj-bar-fill"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="projects-slider">
+        <% club.projects.forEach(function(p) { %>
+        <div class="project-panel">
+          <div>
+            <% if (p.tag || p.num) { %>
+            <div class="project-panel-top">
+              <% if (p.tag) { %><span class="project-category-badge"><%= p.tag %></span><% } %>
+              <% if (p.num) { %><span class="project-huge-num"><%= p.num %></span><% } %>
+            </div>
+            <% } %>
+            <% if (p.title) { %><h3><%= p.title %></h3><% } %>
+            <% if (p.desc) { %><p><%= p.desc %></p><% } %>
+            <% if (p.tech && p.tech.length) { %>
+            <div class="tech-pills">
+              <% p.tech.forEach(function(t) { %>
+              <span class="tech-pill"><%= t %></span>
+              <% }); %>
+            </div>
+            <% } %>
+          </div>
+
+          <div>
+            <% if (p.impact) { %>
+            <div class="project-impact"><%= p.impact %></div>
+            <% } %>
+            <div class="project-panel-actions">
+              <button type="button" class="btn-primary">Get Involved</button>
+              <button type="button" class="btn-secondary">Learn More</button>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </section>
+
+    <section id="contact-section">
+      <div class="contact-inner">
+        <div class="sheet-handle"><span></span></div>
+
+        <span class="editorial-tag">Connect With Us</span>
+        <h2 class="editorial-title">
+          Get in touch with our <span>team</span>
+        </h2>
+        <p class="editorial-lead">
+          Whether you are a high school student wanting to join, a community partner, or a Rotary member, we would love to connect with you.
+        </p>
+
+        <div class="contact-grid">
+          <div class="contact-info-block">
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="3"/>
+                </svg>
+              </div>
+              <div class="contact-item-text">
+                <h4>Location</h4>
+                <p><%= club.contact.location %></p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="20" height="16" x="2" y="4" rx="2"/>
+                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+                </svg>
+              </div>
+              <div class="contact-item-text">
+                <h4>Email</h4>
+                <p><a id="contact-email-link" href="mailto:<%= club.contact.email %>"><%= club.contact.email %></a></p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m22 2-7 20-4-9-9-4Z"/>
+                  <path d="M22 2 11 13"/>
+                </svg>
+              </div>
+              <div class="contact-item-text">
+                <h4>Telegram</h4>
+                <p><a id="contact-tg-link" href="https://<%= club.contact.telegram %>" target="_blank" rel="noopener"><%= club.contact.telegram %></a></p>
+              </div>
+            </div>
+
+            <div class="contact-item">
+              <div class="contact-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                  <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                  <line x1="16" x2="16" y1="2" y2="6"/>
+                  <line x1="8" x2="8" y1="2" y2="6"/>
+                  <line x1="3" x2="21" y1="10" y2="10"/>
+                </svg>
+              </div>
+              <div class="contact-item-text">
+                <h4>Meeting Time</h4>
+                <p><%= club.contact.meetingTime %></p>
+              </div>
+            </div>
+          </div>
+
+          <div class="contact-form">
+            <h3>Send Us a Message</h3>
+            <p>Leave a note and we will get back to you.</p>
+
+            <form id="club-contact-form">
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label for="name">Full Name</label>
+                  <input type="text" id="name" placeholder="Abebe Kebede" required>
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Email or Telegram</label>
+                  <input type="text" id="email" placeholder="abebe@example.com / @abebe" required>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="role">I am a</label>
+                <select id="role">
+                  <option value="student">High School Student</option>
+                  <option value="parent">Parent or Educator</option>
+                  <option value="partner">Rotary Member or Community Partner</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="msg">Message / Area of Interest</label>
+                <textarea id="msg" rows="3" placeholder="Tell us how you'd like to collaborate or get involved..." required></textarea>
+              </div>
+
+              <button type="button" class="form-submit-btn">Submit Message &rarr;</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="contact-footer">
+          <div>
+            &copy; 2026 <strong><%= club.name %></strong>. Sponsored by <span><%= club.sponsor %></span>.
+          </div>
+          <div>
+            <a onclick="jumpTo('intro')">Back to Top &uarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div id="project-modal" onclick="if(event.target === this) closeProjectModal()">
+    <div class="modal-card">
+      <button class="modal-close" onclick="closeProjectModal()" aria-label="Close modal">&times;</button>
+      <span class="editorial-tag" id="modal-tag">Project Brief</span>
+      <h3 style="font-family: var(--font-display); font-size: 1.65rem; margin-bottom: 12px; color: var(--ink-900);" id="modal-title"></h3>
+      <p style="font-size: 0.96rem; line-height: 1.7; color: var(--ink-500); margin-bottom: 20px;" id="modal-desc"></p>
+      <div style="background: #f8fafc; border-left: 3px solid var(--rotary-electric); padding: 14px 18px; border-radius: 6px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--ink-700); margin-bottom: 24px;" id="modal-impact"></div>
+      <div style="display: flex; justify-content: flex-end; gap: 12px;">
+        <button class="btn-secondary" onclick="closeProjectModal()">Close</button>
+        <button type="button" class="btn-primary">Join This Project Team &rarr;</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast-notification">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#38bdf8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 6 9 17l-5-5"/>
+    </svg>
+    <span id="toast-text">Thank you! Your message has been sent to the Interact Club team.</span>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="/static/main.js"></script>
+</body>
+</html>

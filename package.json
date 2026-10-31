@@ -1,0 +1,14 @@
+{
+  "name": "interact",
+  "version": "1.0.0",
+  "description": "Interact Club of BDU STEM Center website",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.21.2"
+  }
+}
